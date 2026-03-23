@@ -29,3 +29,18 @@ def test_integration_tenants_loaded():
     
     for expected_name in expected_names:
         assert expected_name in loaded_names, f"Błąd integracji: Brakuje najemcy {expected_name}!"
+
+
+
+def test_tdd_manager_checks_apartments():
+    params = Parameters()
+    manager = Manager(parameters=params)
+
+
+    assert manager.check_tenants_apartments() == True, "Wszystkie przypisania powinny być poprawne"
+
+    
+    first_tenant_id = list(manager.tenants.keys())[0]
+    manager.tenants[first_tenant_id].apartment = "zmyslone-mieszkanie-999"
+
+    assert manager.check_tenants_apartments() == False, "Manager powinien wykryć przypisanie do nieistniejącego mieszkania"
