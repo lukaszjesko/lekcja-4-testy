@@ -1,7 +1,7 @@
 import pytest
 
 from pydantic import ValidationError
-from src.models import Apartment
+from src.models import Apartment, Tenant 
 
 
 def test_apartment_fields():
@@ -43,3 +43,25 @@ def test_apartment_from_dict():
     data['area_m2'] = "25m2" # Invalid field
     with pytest.raises(ValidationError):
         wrong_apartment = Apartment(**data)
+
+
+
+def test_tenant_creation_direct():
+   
+    tenant = Tenant(
+        name="Jan Kowalski",
+        apartment="apart-polanka",
+        room="room-1",
+        rent_pln=1500,
+        deposit_pln=2000,
+        date_agreement_from="2026-01-01",
+        date_agreement_to="2026-12-31"
+    )
+    
+    
+    assert tenant.name == "Jan Kowalski"
+    assert tenant.apartment == "apart-polanka"
+    assert tenant.room == "room-1"
+    assert tenant.rent_pln == 1500
+    assert tenant.deposit_pln == 2000
+    assert tenant.date_agreement_from is not None 
